@@ -1,8 +1,6 @@
 # Face-verification-using-One-shot-learning
 Implementing one-shot learning using FaceNet
 
-## Results
-
 ## Setup and Runtime
 The FaceNet model can be downloaded from <a href='https://drive.google.com/drive/folders/1pwQ3H4aJ8a6yyJHZkTwtjcL4wYWQb7bn'>here.</a>
 
