@@ -1,0 +1,73 @@
+array_relationships:
+- name: attempts
+  using:
+    foreign_key_constraint_on:
+      column: test_id
+      table:
+        name: attempts
+        schema: public
+- name: questions
+  using:
+    foreign_key_constraint_on:
+      column: test_id
+      table:
+        name: questions
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check: {}
+    columns:
+    - duration
+    - instructions
+    - title
+    set:
+      created_by: x-hasura-User-Id
+  role: manager
+object_relationships:
+- name: user
+  using:
+    foreign_key_constraint_on: created_by
+select_permissions:
+- permission:
+    columns:
+    - title
+    - duration
+    - instructions
+    - created_at
+    - updated_at
+    - created_by
+    - id
+    filter:
+      created_by:
+        _eq: X-Hasura-User-Id
+  role: manager
+- permission:
+    columns:
+    - id
+    - title
+    - duration
+    - instructions
+    - created_by
+    - created_at
+    - updated_at
+    filter:
+      attempts:
+        user:
+          id:
+            _eq: X-Hasura-User-Id
+  role: student
+table:
+  name: tests
+  schema: public
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - duration
+    - instructions
+    - title
+    filter:
+      created_by:
+        _eq: X-Hasura-User-Id
+  role: manager

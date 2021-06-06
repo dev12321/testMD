@@ -1,0 +1,87 @@
+array_relationships:
+- name: submissions
+  using:
+    foreign_key_constraint_on:
+      column: question_id
+      table:
+        name: submissions
+        schema: public
+delete_permissions:
+- permission:
+    filter:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+  role: manager
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+    columns:
+    - answer
+    - id
+    - is_multiple
+    - options
+    - test_id
+    - title
+  role: manager
+object_relationships:
+- name: test
+  using:
+    foreign_key_constraint_on: test_id
+select_permissions:
+- permission:
+    allow_aggregations: true
+    columns:
+    - answer
+    - created_at
+    - id
+    - is_multiple
+    - options
+    - order
+    - test_id
+    - title
+    - updated_at
+    filter:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+  role: manager
+- permission:
+    allow_aggregations: true
+    columns:
+    - answer
+    - created_at
+    - id
+    - is_multiple
+    - options
+    - order
+    - test_id
+    - title
+    - updated_at
+    filter:
+      test:
+        attempts:
+          user:
+            id:
+              _eq: X-Hasura-User-Id
+  role: student
+table:
+  name: questions
+  schema: public
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - answer
+    - is_multiple
+    - options
+    - title
+    filter:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+  role: manager

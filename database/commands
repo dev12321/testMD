@@ -1,0 +1,7 @@
+hasura migrate create "init" --from-server
+hasura migrate status
+hasura migrate apply --version 1595450832156 --skip-execution
+
+
+hasura metadata export
+

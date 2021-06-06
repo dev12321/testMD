@@ -1,0 +1,94 @@
+array_relationships:
+- name: appeals
+  using:
+    foreign_key_constraint_on:
+      column: attempt_id
+      table:
+        name: appeal
+        schema: public
+- name: malpractice_logs
+  using:
+    foreign_key_constraint_on:
+      column: attempt_id
+      table:
+        name: malpractice_logs
+        schema: public
+- name: submissions
+  using:
+    foreign_key_constraint_on:
+      column: attempt_id
+      table:
+        name: submissions
+        schema: public
+insert_permissions:
+- permission:
+    backend_only: false
+    check:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+    columns:
+    - expiry_date
+    - test_id
+    - user_email
+  role: manager
+object_relationships:
+- name: test
+  using:
+    foreign_key_constraint_on: test_id
+- name: user
+  using:
+    foreign_key_constraint_on: user_email
+select_permissions:
+- permission:
+    columns:
+    - created_at
+    - expiry_date
+    - id
+    - marked_malpractice
+    - status
+    - test_id
+    - updated_at
+    - user_email
+    filter:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+  role: manager
+- permission:
+    columns:
+    - created_at
+    - expiry_date
+    - id
+    - marked_malpractice
+    - status
+    - test_id
+    - updated_at
+    - user_email
+    filter:
+      user:
+        id:
+          _eq: X-Hasura-User-Id
+  role: student
+table:
+  name: attempts
+  schema: public
+update_permissions:
+- permission:
+    check: null
+    columns:
+    - expiry_date
+    filter:
+      test:
+        created_by:
+          _eq: X-Hasura-User-Id
+  role: manager
+- permission:
+    check: null
+    columns:
+    - status
+    filter:
+      user:
+        id:
+          _eq: X-Hasura-User-Id
+  role: student
