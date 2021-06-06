@@ -1,0 +1,79 @@
+- admin
+ 1   - Test List DONE
+ 2   - Test Info DONE
+ 3   - Add Participants DONE
+  10  - Participant Stats  
+  7  - Appeals
+  8  - Resolve Appeal
+
+- student
+ 4   - Test List DONE
+  5  - Instructions/ starting page DONE
+  11  - Main test page DONE
+ 9   - Test stats/malpractice 
+ 6   - make appeal
+
+
+
+
+
+
+
+
+
+
+
+ from PIL import Image
+import requests
+from io import BytesIO
+from numpy import asarray
+
+response = requests.get(url)
+img = Image.open(BytesIO(response.content))
+  
+numpydata = asarray(img)
+  
+print(type(numpydata))
+print(numpydata.shape)
+
+
+
+
+ function(stream) {
+      audioContext = new AudioContext();
+      analyser = audioContext.createAnalyser();
+      microphone = audioContext.createMediaStreamSource(stream);
+      javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+
+      analyser.smoothingTimeConstant = 0.8;
+      analyser.fftSize = 1024;
+
+      microphone.connect(analyser);
+      analyser.connect(javascriptNode);
+      javascriptNode.connect(audioContext.destination);
+
+      canvasContext = $("#canvas")[0].getContext("2d");
+
+      javascriptNode.onaudioprocess = function() {
+          var array = new Uint8Array(analyser.frequencyBinCount);
+          analyser.getByteFrequencyData(array);
+          var values = 0;
+
+          var length = array.length;
+          for (var i = 0; i < length; i++) {
+            values += (array[i]);
+          }
+
+          var average = values / length;
+
+//          console.log(Math.round(average - 40));
+
+          canvasContext.clearRect(0, 0, 150, 300);
+          canvasContext.fillStyle = '#BadA55';
+          canvasContext.fillRect(0, 300 - average, 150, 300);
+          canvasContext.fillStyle = '#262626';
+          canvasContext.font = "48px impact";
+          canvasContext.fillText(Math.round(average - 40), -2, 300);
+
+        } // end fn stream
+    },
